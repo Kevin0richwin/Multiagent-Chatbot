@@ -5,18 +5,20 @@ from langchain.chains import RetrievalQA
 from langchain.schema import SystemMessagePromptTemplate, HumanMessagePromptTemplate
 from transformers import pipeline
 import os
+from dotenv import load_dotenv
+load_dotenv()
+google_api_key = os.getenv("GOOGLE_API_KEY")
 
-# 🔐 Set Google API Key (for Gemini)
-os.environ["GOOGLE_API_KEY"] = "AIzaSyC5HztCYhvsyf-y65cV1sTTO3lxcZ5ZZMQ"  # Replace with your actual key
+os.environ["GOOGLE_API_KEY"] = google_api_key
 
-# 1. Load Emotion Classification Model
+
 emotion_classifier = pipeline(
     "text-classification",
     model="j-hartmann/emotion-english-distilroberta-base",
     top_k=1
 )
 
-# 2. Load ChromaDB Knowledge Base
+
 embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 db = Chroma(persist_directory="./cbt_chroma_db", embedding_function=embedding)
 
