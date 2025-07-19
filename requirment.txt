@@ -1,0 +1,3 @@
+pip install google-generativeai
+pip install langchain langchain-google-genai
+pip install transformers chromadb
